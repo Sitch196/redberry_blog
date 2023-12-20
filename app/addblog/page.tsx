@@ -4,6 +4,11 @@ import Image from "next/image";
 import upload from "../../assets/upload.png";
 import defaultimage from "../../assets/default.png";
 import close from "../../assets/close.png";
+import Author from "@/components/addblog/Author";
+import Description from "@/components/addblog/Description";
+import PublishDate from "@/components/addblog/PublishDate";
+import Email from "@/components/addblog/Email";
+import publish from "../../assets/publish.png";
 interface PageProps {}
 
 export default function Page(props: PageProps): JSX.Element {
@@ -25,8 +30,8 @@ export default function Page(props: PageProps): JSX.Element {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col w-[600px] h-[900px] mt-[45px]">
+    <div className="flex  justify-center items-center">
+      <div className="flex flex-col w-[600px] h-[1050px] mt-[30px]">
         <p className="text-[32px] font-bold">ბლოგის დამატება</p>
         <label className="text-sm mt-[40px]">ატვირთეთ ფოტო</label>
         <div
@@ -76,6 +81,18 @@ export default function Page(props: PageProps): JSX.Element {
               </span>
             </div>
           )}
+        </div>
+        <Author />
+        <Description />
+        <PublishDate />
+        <Email />
+
+        <div className="w-[600px] flex justify-end ">
+          <Image
+            className="mt-7  cursor-pointer h-[45px]"
+            src={publish}
+            alt="publish button"
+          />
         </div>
       </div>
     </div>

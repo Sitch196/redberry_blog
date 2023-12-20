@@ -24,8 +24,6 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
   };
 
   const handleSubmit = () => {
-    // You can add logic here to handle form submission
-    // For now, just close the modal
     onClose();
   };
 
