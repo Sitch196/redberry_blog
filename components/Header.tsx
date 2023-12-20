@@ -17,11 +17,11 @@ export default function Header() {
   };
 
   return (
-    <div className="flex justify-between py-7 px-16">
+    <div className="flex justify-between py-7 px-16 border-b border-gray-300">
       <Image
         src={logo}
-        width={180}
-        height={35}
+        width={150}
+        height={24}
         alt="redberry logo"
         className="cursor-pointer"
       />
