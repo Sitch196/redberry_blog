@@ -1,8 +1,10 @@
 import React, { useState, ChangeEvent } from "react";
 
-interface EmailProps {}
+interface EmailProps {
+  onEmailChange: (value: string, isValid: boolean) => void;
+}
 
-const Email: React.FC<EmailProps> = () => {
+const Email: React.FC<EmailProps> = ({ onEmailChange }) => {
   const [email, setEmail] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(true);
 
@@ -10,7 +12,10 @@ const Email: React.FC<EmailProps> = () => {
     const newEmail: string = e.target.value;
     setEmail(newEmail);
 
-    setIsValid(newEmail.endsWith("@redberry.ge"));
+    const newIsValid = newEmail.endsWith("@redberry.ge");
+    setIsValid(newIsValid);
+
+    onEmailChange(newEmail, newIsValid);
   };
 
   return (

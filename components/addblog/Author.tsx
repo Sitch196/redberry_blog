@@ -1,7 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+interface AuthorProps {
+  onAuthorChange: (data: { authorName: string; title: string }) => void;
+}
 
-export default function Author() {
+export default function Author({ onAuthorChange }: AuthorProps) {
   const [authorName, setAuthorName] = useState("");
   const [title, setTitle] = useState("");
 
@@ -12,6 +15,9 @@ export default function Author() {
   const isFormValid =
     isAuthorNameValid && isTitleWordCountValid && isTitleKartuliValid;
 
+  const PassToParrent = () => {
+    onAuthorChange({ authorName, title });
+  };
   return (
     <div className="flex items-center justify-between ">
       <div className="flex flex-col mt-5 gap-2">
@@ -20,7 +26,10 @@ export default function Author() {
           type="text"
           value={authorName}
           placeholder="შეიყვანეთ ავტორი"
-          onChange={(e) => setAuthorName(e.target.value)}
+          onChange={(e) => {
+            setAuthorName(e.target.value);
+            PassToParrent();
+          }}
           className={`h-[45px] border-[2px] rounded-md border-[#5d37f3] indent-3 outline-none ${
             isFormValid ? "border-green-500" : "border-red-500"
           }`}
@@ -58,7 +67,10 @@ export default function Author() {
           } border-[#5d37f3] indent-3 outline-none 
             
           }`}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            PassToParrent();
+          }}
         />
         <p
           className={`text-xs 
