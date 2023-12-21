@@ -1,22 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 interface AuthorProps {
-  onAuthorChange: (data: { authorName: string; title: string }) => void;
+  onAuthorChange: (data: { author: string }) => void;
 }
 
 export default function Author({ onAuthorChange }: AuthorProps) {
-  const [authorName, setAuthorName] = useState("");
-  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
 
-  const isAuthorNameValid = authorName.length >= 4;
-  const isTitleWordCountValid = authorName.split(" ").length >= 2;
-  const isTitleKartuliValid = /^[ა-ჰ]+$/.test(authorName.replace(/\s/g, ""));
-  const istitleValid = title.length >= 4;
+  const isauthorValid = author.length >= 4;
+  const isTitleWordCountValid = author.split(" ").length >= 2;
+  const isTitleKartuliValid = /^[ა-ჰ]+$/.test(author.replace(/\s/g, ""));
   const isFormValid =
-    isAuthorNameValid && isTitleWordCountValid && isTitleKartuliValid;
+    isauthorValid && isTitleWordCountValid && isTitleKartuliValid;
 
   const PassToParrent = () => {
-    onAuthorChange({ authorName, title });
+    onAuthorChange({ author });
   };
   return (
     <div className="flex items-center justify-between ">
@@ -24,10 +22,10 @@ export default function Author({ onAuthorChange }: AuthorProps) {
         <label className="font-bold">ავტორი</label>
         <input
           type="text"
-          value={authorName}
+          value={author}
           placeholder="შეიყვანეთ ავტორი"
           onChange={(e) => {
-            setAuthorName(e.target.value);
+            setAuthor(e.target.value);
             PassToParrent();
           }}
           className={`h-[45px] border-[2px] rounded-md border-[#5d37f3] indent-3 outline-none ${
@@ -36,7 +34,7 @@ export default function Author({ onAuthorChange }: AuthorProps) {
         />
         <p
           className={`text-xs ${
-            isAuthorNameValid ? "text-green-500" : "text-red-500"
+            isauthorValid ? "text-green-500" : "text-red-500"
           }`}
         >
           <span>*</span> მინიმუმ 4 სიმბოლო
@@ -54,30 +52,6 @@ export default function Author({ onAuthorChange }: AuthorProps) {
           }`}
         >
           <span>*</span> მხოლოდ ქართული სიმბოლოები
-        </p>
-      </div>
-      <div className="flex flex-col gap-2 mb-8">
-        <label className="font-bold">სათაური</label>
-        <input
-          type="text"
-          placeholder="შეიყვანეთ სათაური"
-          value={title}
-          className={`h-[45px] border-[2px] rounded-md ${
-            istitleValid ? "border-green-500" : "border-red-500"
-          } border-[#5d37f3] indent-3 outline-none 
-            
-          }`}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            PassToParrent();
-          }}
-        />
-        <p
-          className={`text-xs 
-          ${istitleValid ? "text-green-500" : "text-red-500"}
-          }`}
-        >
-          <span>*</span> მინუმუმ 4 სიმბოლო
         </p>
       </div>
     </div>

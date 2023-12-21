@@ -7,13 +7,16 @@ import Image from "next/image";
 import publish from "../../assets/publish.png";
 import UploadImage from "@/components/addblog/UploadImage";
 import { useEffect, useState } from "react";
+import Title from "@/components/addblog/Title";
+import Categories from "@/components/addblog/Categories";
 //////////////////////////////////////////////////////////////////////////////
 export default function Page() {
   const [image, setImage] = useState<File | null>(null);
-  const [authorData, setAuthorData] = useState({ authorName: "", title: "" });
+  const [author, setAuthor] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [publishDate, setPublishDate] = useState("");
-  const [category, setCategory] = useState("აირჩიე კატეგორია");
+  const [publish_date, setPublish_date] = useState("");
+  const [categories, setCategories] = useState("აირჩიე კატეგორია");
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
 
@@ -24,10 +27,11 @@ export default function Page() {
     if (storedPostData) {
       const parsedPostData = JSON.parse(storedPostData);
       setImage(parsedPostData.file);
-      setAuthorData(parsedPostData.author);
+      setAuthor(parsedPostData.author);
+      setTitle(parsedPostData.title);
       setDescription(parsedPostData.description);
-      setPublishDate(parsedPostData.publishDate);
-      setCategory(parsedPostData.category);
+      setPublish_date(parsedPostData.publish_date);
+      setCategories(parsedPostData.categories);
       setEmail(parsedPostData.email);
     }
   }, []);
@@ -38,20 +42,22 @@ export default function Page() {
     setImage(selectedFile);
   };
 
-  const handleAuthorChange = (data: { authorName: string; title: string }) => {
-    setAuthorData(data);
+  const handleAuthorChange = (data: { author: string }) => {
+    setAuthor(data.author);
   };
-
+  const handleTitleChange = (data: { title: string }) => {
+    setTitle(data.title);
+  };
   const handleDescriptionChange = (value: string) => {
     setDescription(value);
   };
 
   const handlePublishDateChange = (value: string) => {
-    setPublishDate(value);
+    setPublish_date(value);
   };
 
   const handleCategoryChange = (value: string) => {
-    setCategory(value);
+    setCategories(value);
   };
   const handleEmailChange = (value: string, isValid: boolean) => {
     setEmail(value);
@@ -61,11 +67,11 @@ export default function Page() {
   const handleSubmit = () => {
     if (
       !image ||
-      !authorData.authorName ||
-      !authorData.title ||
+      !author ||
+      !title ||
       !description ||
-      !publishDate ||
-      category === "აირჩიე კატეგორია" ||
+      !publish_date ||
+      categories === "აირჩიე კატეგორია" ||
       !email ||
       !isEmailValid
     ) {
@@ -73,11 +79,12 @@ export default function Page() {
       return;
     }
     const postData = {
-      image,
-      author: authorData,
+      title,
       description,
-      publishDate,
-      category,
+      image,
+      author,
+      publish_date,
+      categories,
       email,
     };
 
@@ -117,12 +124,16 @@ export default function Page() {
     <div className="flex  justify-center items-center">
       <div className="flex flex-col w-[600px] h-[1050px] mt-[30px] ">
         <UploadImage onFileChange={handleFileChange} />
-        <Author onAuthorChange={handleAuthorChange} />
+
+        <div className="flex items-center justify-between">
+          <Author onAuthorChange={handleAuthorChange} />
+          <Title onTitleChange={handleTitleChange} />
+        </div>
         <Description onDescriptionChange={handleDescriptionChange} />
-        <PublishDate
-          onPublishDateChange={handlePublishDateChange}
-          onCategoryChange={handleCategoryChange}
-        />
+        <div className="flex justify-between mt-4">
+          <PublishDate onPublishDateChange={handlePublishDateChange} />
+          <Categories onCategoryChange={handleCategoryChange} />
+        </div>
         <Email onEmailChange={handleEmailChange} />
 
         <div className="w-[600px] flex justify-end ">
