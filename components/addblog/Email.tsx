@@ -26,7 +26,7 @@ const Email: React.FC<EmailProps> = ({ onEmailChange }) => {
         value={email}
         onChange={handleEmailChange}
         className={`w-[288px] h-[45px] border-[2px] rounded-md indent-3 outline-none ${
-          isValid ? "border-[#5d37f3]" : "border-red-500"
+          isValid ? "border-[#5d37f3]" : "border-red-500 bg-red-100"
         }`}
       />
       {!isValid && (

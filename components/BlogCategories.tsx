@@ -11,21 +11,12 @@ interface Category {
 
 const BlogCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const bearerToken =
-    "85f318e6a346ccfe62b599534ae480db958fd554001a14e9647f2970343d34eb";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.blog.redberryinternship.ge/api/categories",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${bearerToken}`,
-              "Content-Type": "application/json",
-            },
-          }
+          "https://api.blog.redberryinternship.ge/api/categories"
         );
         const data = await response.json();
         setCategories(data.data);

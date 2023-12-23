@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, ChangeEvent } from "react";
 
 interface DescriptionProps {
@@ -7,10 +6,12 @@ interface DescriptionProps {
 
 export default function Description({ onDescriptionChange }: DescriptionProps) {
   const [description, setDescription] = useState("");
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const isDescriptionValid = description.length >= 4;
+  const isDescriptionValid = hasStartedTyping && description.length >= 4;
 
-  const PassToParrent = () => {
+  const PassToParent = () => {
+    setHasStartedTyping(true);
     onDescriptionChange(description);
   };
 
@@ -21,11 +22,15 @@ export default function Description({ onDescriptionChange }: DescriptionProps) {
         value={description}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           setDescription(e.target.value);
-          PassToParrent();
+          PassToParent();
         }}
         placeholder="შეიყვანეთ აღწერა"
-        className={`w-[600px] h-[124px] resize-none border-2 rounded-md p-2 outline-none ${
-          isDescriptionValid ? "border-green-500" : "border-gray-200"
+        className={`w-[600px] h-[124px] indent-2 resize-none p-2 rounded-md outline-none ${
+          hasStartedTyping
+            ? isDescriptionValid
+              ? "border-green-500 bg-green-200"
+              : "border-red-500 bg-red-100"
+            : "border-gray-200"
         }`}
       ></textarea>
       <p

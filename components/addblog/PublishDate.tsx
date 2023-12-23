@@ -8,10 +8,12 @@ interface PublishDateProps {
 
 export default function PublishDate({ onPublishDateChange }: PublishDateProps) {
   const [publish_date, setPublish_date] = useState("");
+  const [hasSelectedDate, setHasSelectedDate] = useState(false);
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPublish_date(value);
+    setHasSelectedDate(true);
     onPublishDateChange(value);
   };
 
@@ -22,7 +24,11 @@ export default function PublishDate({ onPublishDateChange }: PublishDateProps) {
         type="date"
         value={publish_date}
         onChange={handleDateChange}
-        className="h-[45px] indent-3 border-2 border-gray-200 rounded-md"
+        className={`h-[45px] indent-3 border-2 rounded-md ${
+          hasSelectedDate && !publish_date
+            ? "border-red-500"
+            : "border-gray-200"
+        }`}
       />
     </div>
   );
