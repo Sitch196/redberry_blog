@@ -9,6 +9,7 @@ import UploadImage from "@/components/addblog/UploadImage";
 import { useState } from "react";
 import Title from "@/components/addblog/Title";
 import Categories from "@/components/addblog/Categories";
+import HeaderJustLogo from "@/components/HeaderJustLogo";
 
 export default function Page() {
   const [image, setImage] = useState<File | null>(null);
@@ -127,30 +128,36 @@ export default function Page() {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col w-[600px] h-[1090px] mt-[30px]">
-        <UploadImage onFileChange={handleFileChange} />
+    <div className="flex flex-col ">
+      <div className="flex justify-center items-center border-b-2">
+        <HeaderJustLogo />
+      </div>
 
-        <div className="flex items-center justify-between">
-          <Author onAuthorChange={handleAuthorChange} />
-          <Title onTitleChange={handleTitleChange} />
-        </div>
-        <Description onDescriptionChange={handleDescriptionChange} />
-        <div className="flex justify-between mt-4">
-          <PublishDate onPublishDateChange={handlePublishDateChange} />
-          <Categories onCategoryChange={handleCategoryChange} />
-        </div>
-        <Email onEmailChange={handleEmailChange} />
+      <div className="flex justify-center items-center bg-white">
+        <div className="flex flex-col w-[600px] h-[1090px] mt-[30px]">
+          <UploadImage onFileChange={handleFileChange} />
 
-        <div className="w-[600px] flex justify-end">
-          <Image
-            className={`mt-7 cursor-pointer h-[45px] ${
-              isFormValid ? "" : "opacity-20"
-            }`}
-            src={publish}
-            alt="publish button"
-            onClick={handleSubmit}
-          />
+          <div className="flex items-center justify-between">
+            <Author onAuthorChange={handleAuthorChange} />
+            <Title onTitleChange={handleTitleChange} />
+          </div>
+          <Description onDescriptionChange={handleDescriptionChange} />
+          <div className="flex justify-between mt-4">
+            <PublishDate onPublishDateChange={handlePublishDateChange} />
+            <Categories onCategoryChange={handleCategoryChange} />
+          </div>
+          <Email onEmailChange={handleEmailChange} />
+
+          <div className="w-[600px] flex justify-end">
+            <Image
+              className={`mt-7 cursor-pointer h-[45px] ${
+                isFormValid ? "" : "opacity-20"
+              }`}
+              src={publish}
+              alt="publish button"
+              onClick={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </div>

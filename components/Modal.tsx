@@ -1,8 +1,12 @@
+// Import Success component
+import Success from "./Success";
+
 import close from "../assets/close.png";
 import Image from "next/image";
 import enterbtn from "../assets/enterbtn.png";
 import React, { useState } from "react";
 import info from "../assets/info.png";
+import { useAuth } from "@/Context/AuthContext";
 
 interface ModalProps {
   onClose: () => void;
@@ -11,6 +15,8 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
+  const { setLoggedin } = useAuth();
+  const [showSuccess, setShowSuccess] = useState(false); // New state variable
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -23,7 +29,31 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
     setIsValidEmail(isValid);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        "https://api.blog.redberryinternship.ge/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        }
+      );
+
+      if (response.status === 204) {
+        setLoggedin(true);
+        setShowSuccess(true); // Set showSuccess to true on successful login
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("An error occurred during login:", error);
+    }
+
     onClose();
   };
 
@@ -69,6 +99,16 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
         className="absolute inset-0 cursor-pointer  bg-black bg-opacity-50"
         onClick={onClose}
       />
+      {showSuccess && (
+        <Success
+          Text="წარატებული ავტორიზაცია"
+          buttonText="კარგი"
+          onClose={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}{" "}
+      {/* Render Success component conditionally */}
     </div>
   );
 };
