@@ -10,7 +10,7 @@ import Success from "./Success";
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false); // New state to control the Success component
+  const [showSuccess, setShowSuccess] = useState(false);
   const { loggedin }: any = useAuth();
 
   const openModal = () => {

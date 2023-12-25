@@ -2,6 +2,7 @@ import Image from "next/image";
 import checkmark from "../assets/checkmark.png";
 import close from "../assets/close.png";
 import React from "react";
+import Link from "next/link";
 
 interface textTypes {
   Text: string;
@@ -26,12 +27,15 @@ export default function Success({ Text, buttonText, onClose }: textTypes) {
         />
         <Image src={checkmark} width={64} alt="checkmark" />
         <p className="text-lg font-bold">{Text}</p>
-        <button
-          className="w-[432px] bg-[#4c29d8] rounded-md p-2 text-white font-bold"
-          onClick={onClose}
-        >
-          {buttonText}
-        </button>
+
+        <Link href="/">
+          <button
+            className="w-[432px] bg-[#4c29d8] rounded-md p-2 text-white font-bold"
+            onClick={onClose}
+          >
+            {buttonText}
+          </button>
+        </Link>
       </div>
     </div>
   );

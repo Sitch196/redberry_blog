@@ -1,73 +1,87 @@
 "use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import UploadImage from "@/components/addblog/UploadImage";
 import Author from "@/components/addblog/Author";
+import Title from "@/components/addblog/Title";
 import Description from "@/components/addblog/Description";
 import PublishDate from "@/components/addblog/PublishDate";
-import Email from "@/components/addblog/Email";
-import Image from "next/image";
-import publish from "../../assets/publish.png";
-import UploadImage from "@/components/addblog/UploadImage";
-import { useState } from "react";
-import Title from "@/components/addblog/Title";
 import Categories from "@/components/addblog/Categories";
+import Email from "@/components/addblog/Email";
 import HeaderJustLogo from "@/components/HeaderJustLogo";
+import Success from "@/components/Success";
+import publish from "../../assets/publish.png";
+import axios from "axios";
 
-export default function Page() {
+export default function CreateBlog() {
   const [image, setImage] = useState<File | null>(null);
   const [author, setAuthor] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [publish_date, setPublish_date] = useState("");
-  const [categories, setCategories] = useState("აირჩიე კატეგორია");
+  const [categories, setCategories] = useState([]);
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
+  ////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    validateForm();
+  }, [
+    image,
+    author,
+    title,
+    description,
+    publish_date,
+    categories,
+    email,
+    isEmailValid,
+  ]);
+  ///////////////////HANDLING STATEs COMING FROM OTHER COMPONENTS/////////////////////
   const handleFileChange = (selectedFile: File | null) => {
     setImage(selectedFile);
-    validateForm();
   };
 
   const handleAuthorChange = (data: { author: string }) => {
     setAuthor(data.author);
-    validateForm();
   };
 
   const handleTitleChange = (data: { title: string }) => {
     setTitle(data.title);
-    validateForm();
   };
 
   const handleDescriptionChange = (value: string) => {
     setDescription(value);
-    validateForm();
   };
 
   const handlePublishDateChange = (value: string) => {
     setPublish_date(value);
-    validateForm();
   };
 
-  const handleCategoryChange = (value: string) => {
+  const handleCategoryChange = (value: Category[]) => {
     setCategories(value);
-    validateForm();
   };
 
   const handleEmailChange = (value: string, isValid: boolean) => {
     setEmail(value);
     setIsEmailValid(isValid);
-    validateForm();
   };
 
+  const closeSuccess = () => {
+    setShowSuccess(false);
+  };
+
+  ///////////////////////////VALIDATIONS//////////////////////////////////////
   const validateForm = () => {
     const isImageValid = !!image;
     const isAuthorValid =
-      author.length >= 4 ||
-      author.split(" ").length >= 2 ||
+      author.trim().split(/\s+/).filter(Boolean).length >= 2 ||
       /^[ა-ჰ]+$/.test(author.replace(/\s/g, ""));
     const isTitleValid = title.length >= 4;
     const isDescriptionValid = description.length >= 4;
     const isPublishDateValid = !!publish_date;
-    const isCategoryValid = categories !== "აირჩიე კატეგორია";
+    const isCategoryValid = categories.length > 0;
     const isEmailFieldValid = !!email;
 
     setIsFormValid(
@@ -76,51 +90,50 @@ export default function Page() {
         isTitleValid &&
         isDescriptionValid &&
         isPublishDateValid &&
-        (isCategoryValid || categories === "აირჩიე კატეგორია") &&
+        isCategoryValid &&
         isEmailFieldValid &&
         isEmailValid
     );
   };
+  ////////////////////////////////SENDING THE FORM///////////////////////////////
   const handleSubmit = async () => {
-    if (
-      !image ||
-      !author ||
-      !title ||
-      !description ||
-      !publish_date ||
-      categories === "აირჩიე კატეგორია" ||
-      !email ||
-      !isEmailValid ||
-      !isFormValid
-    ) {
+    if (!isFormValid) {
       console.error("Please fill out all required fields");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("image", image);
-    formData.append("author", author);
-    formData.append("publish_date", publish_date);
-    formData.append("categories", categories);
-    formData.append("email", email);
     try {
-      const response = await fetch(
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("image", image);
+      formData.append("author", author);
+      formData.append("publish_date", publish_date);
+
+      formData.append(
+        "categories",
+        JSON.stringify(categories.map((category: any) => category.id))
+      );
+
+      formData.append("email", email);
+
+      const blogResponse = await axios.post(
         "https://api.blog.redberryinternship.ge/api/blogs",
+        formData,
         {
-          method: "POST",
           headers: {
             Authorization:
               "Bearer 5f4f8ea35e48816ce488d1061017c83931743eac88ffbbd65f9a6fc878fdc138",
+            "Content-Type": "multipart/form-data",
           },
-          body: JSON.stringify(formData),
         }
       );
-      if (response.ok) {
+
+      if (blogResponse.status === 204) {
+        setShowSuccess(true);
         console.log("Post request successful");
       } else {
-        console.error("Post request failed with status:", response.status);
+        console.error("Post request failed with status:", blogResponse.status);
       }
     } catch (error) {
       console.error("Error sending data:", error);
@@ -128,7 +141,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       <div className="flex justify-center items-center border-b-2">
         <HeaderJustLogo />
       </div>
@@ -141,11 +154,14 @@ export default function Page() {
             <Author onAuthorChange={handleAuthorChange} />
             <Title onTitleChange={handleTitleChange} />
           </div>
+
           <Description onDescriptionChange={handleDescriptionChange} />
+
           <div className="flex justify-between mt-4">
             <PublishDate onPublishDateChange={handlePublishDateChange} />
             <Categories onCategoryChange={handleCategoryChange} />
           </div>
+
           <Email onEmailChange={handleEmailChange} />
 
           <div className="w-[600px] flex justify-end">
@@ -158,6 +174,15 @@ export default function Page() {
               onClick={handleSubmit}
             />
           </div>
+
+          {/* Conditionally render the Success component */}
+          {showSuccess && (
+            <Success
+              Text="წარმატებით დაემატა"
+              buttonText="მთავარზე დაბრუნება"
+              onClose={closeSuccess}
+            />
+          )}
         </div>
       </div>
     </div>
