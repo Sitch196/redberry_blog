@@ -16,7 +16,6 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const { setLoggedin } = useAuth();
-  const [showSuccess, setShowSuccess] = useState(false); // New state variable
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -29,7 +28,9 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
     setIsValidEmail(isValid);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !isValidEmail) return;
     try {
       const response = await fetch(
         "https://api.blog.redberryinternship.ge/api/login",
@@ -46,7 +47,6 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
 
       if (response.status === 204) {
         setLoggedin(true);
-        setShowSuccess(true); // Set showSuccess to true on successful login
       } else {
         console.error("Login failed");
       }
@@ -71,44 +71,40 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
         />
 
         <div className="flex flex-col gap-3">
-          <label>ელ-ფოსტა</label>
-          <input
-            className={`h-[45px] border-2 rounded-md ${
-              isValidEmail ? "border-[#5d37f3]" : "border-red-500"
-            } indent-3 outline-none`}
-            type="text"
-            placeholder="Example@redberry.ge"
-            value={email}
-            onChange={handleInputChange}
-          />
-          {!isValidEmail && (
-            <div className="flex gap-1">
-              <Image src={info} width={20} height={12} alt="info" />
-              <p className="text-red-500 text-sm">ელ-ფოსტ არ მოიძებნა</p>
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-3">
+              <label>ელ-ფოსტა</label>
+              <input
+                className={`h-[45px] border-2 rounded-md ${
+                  isValidEmail ? "border-[#5d37f3]" : "border-red-500"
+                } indent-3 outline-none`}
+                type="text"
+                placeholder="Example@redberry.ge"
+                value={email}
+                onChange={handleInputChange}
+              />
             </div>
-          )}
-          <Image
-            src={enterbtn}
-            alt=" btn"
-            className="mt-3 m-auto cursor-pointer"
-            onClick={handleSubmit}
-          />
+            {!isValidEmail && (
+              <div className="flex gap-1">
+                <Image src={info} width={20} height={12} alt="info" />
+                <p className="text-red-500 text-sm">
+                  ელ-ფოსტა უნდა მთავრდებოდეს @redberry.ge
+                </p>
+              </div>
+            )}
+            <Image
+              src={enterbtn}
+              alt=" btn"
+              className="mt-4 m-auto cursor-pointer"
+              onClick={handleSubmit}
+            />
+          </form>
         </div>
       </div>
       <div
         className="absolute inset-0 cursor-pointer  bg-black bg-opacity-50"
         onClick={onClose}
       />
-      {showSuccess && (
-        <Success
-          Text="წარატებული ავტორიზაცია"
-          buttonText="კარგი"
-          onClose={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      )}{" "}
-      {/* Render Success component conditionally */}
     </div>
   );
 };

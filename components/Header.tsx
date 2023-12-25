@@ -2,14 +2,16 @@
 import Image from "next/image";
 import logo from "../assets/logo.png";
 import login from "../assets/shesvla.png";
-import AddblogButton from "../assets/Add.png";
 import Modal from "./Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/Context/AuthContext";
+import Success from "./Success";
+
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { loggedin } = useAuth();
+  const [showSuccess, setShowSuccess] = useState(false); // New state to control the Success component
+  const { loggedin }: any = useAuth();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -18,6 +20,17 @@ export default function Header() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const closeSuccess = () => {
+    setShowSuccess(false);
+  };
+
+  useEffect(() => {
+    if (loggedin && !isModalOpen) {
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 7000);
+    }
+  }, [loggedin, isModalOpen]);
 
   return (
     <div className="flex justify-between py-7 px-16 border-b border-gray-300">
@@ -45,6 +58,13 @@ export default function Header() {
             დაამატე ბლოგი
           </button>
         </Link>
+      )}
+      {showSuccess && (
+        <Success
+          Text="წარმატებული ავტორიზაცია"
+          buttonText="კარგი"
+          onClose={closeSuccess}
+        />
       )}
       {isModalOpen && <Modal onClose={closeModal} />}
     </div>
