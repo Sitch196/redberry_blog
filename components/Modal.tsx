@@ -1,6 +1,5 @@
-// Import Success component
-import Success from "./Success";
-
+"use client";
+import { motion, AnimatePresence } from "framer-motion";
 import close from "../assets/close.png";
 import Image from "next/image";
 import enterbtn from "../assets/enterbtn.png";
@@ -58,54 +57,62 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center ">
-      <div className="absolute w-[480px] h-[272px] bg-white p-4 z-10 rounded-lg">
-        <p className="text-xl text-center font-bold mt-6">შესვლა</p>
-        <Image
-          src={close}
-          width={28}
-          height={28}
-          onClick={onClose}
-          className="absolute top-5 right-5 cursor-pointer"
-          alt="close button"
-        />
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 flex items-center justify-center"
+      >
+        <div className="absolute w-[480px] h-[272px] bg-white p-4 z-10 rounded-lg">
+          <p className="text-xl text-center font-bold mt-6">შესვლა</p>
+          <Image
+            src={close}
+            width={28}
+            height={28}
+            onClick={onClose}
+            className="absolute top-5 right-5 cursor-pointer"
+            alt="close button"
+          />
 
-        <div className="flex flex-col gap-3">
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-3">
-              <label>ელ-ფოსტა</label>
-              <input
-                className={`h-[45px] border-2 rounded-md ${
-                  isValidEmail ? "border-[#5d37f3]" : "border-red-500"
-                } indent-3 outline-none`}
-                type="text"
-                placeholder="Example@redberry.ge"
-                value={email}
-                onChange={handleInputChange}
-              />
-            </div>
-            {!isValidEmail && (
-              <div className="flex gap-1">
-                <Image src={info} width={20} height={12} alt="info" />
-                <p className="text-red-500 text-sm">
-                  ელ-ფოსტა უნდა მთავრდებოდეს @redberry.ge
-                </p>
+          <div className="flex flex-col gap-3">
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col gap-3">
+                <label>ელ-ფოსტა</label>
+                <input
+                  className={`h-[45px] border-2 rounded-md ${
+                    isValidEmail ? "border-[#5d37f3]" : "border-red-500"
+                  } indent-3 outline-none`}
+                  type="text"
+                  placeholder="Example@redberry.ge"
+                  value={email}
+                  onChange={handleInputChange}
+                />
               </div>
-            )}
-            <Image
-              src={enterbtn}
-              alt=" btn"
-              className="mt-4 m-auto cursor-pointer"
-              onClick={handleSubmit}
-            />
-          </form>
+              {!isValidEmail && (
+                <div className="flex gap-1">
+                  <Image src={info} width={20} height={12} alt="info" />
+                  <p className="text-red-500 text-sm">
+                    ელ-ფოსტა უნდა მთავრდებოდეს @redberry.ge
+                  </p>
+                </div>
+              )}
+              <Image
+                src={enterbtn}
+                alt=" btn"
+                className="mt-4 m-auto cursor-pointer"
+                onClick={handleSubmit}
+              />
+            </form>
+          </div>
         </div>
-      </div>
-      <div
-        className="absolute inset-0 cursor-pointer  bg-black bg-opacity-50"
-        onClick={onClose}
-      />
-    </div>
+        <div
+          className="absolute inset-0 cursor-pointer  bg-black bg-opacity-50"
+          onClick={onClose}
+        />
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

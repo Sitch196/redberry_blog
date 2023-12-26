@@ -123,7 +123,7 @@ export default function CreateBlog() {
         {
           headers: {
             Authorization:
-              "Bearer 5f4f8ea35e48816ce488d1061017c83931743eac88ffbbd65f9a6fc878fdc138",
+              "Bearer 25d6ddf48ea374d83e58d1977a098873c2cb3e607c024c1814662c81eace5e3d",
             "Content-Type": "multipart/form-data",
           },
         }
@@ -175,7 +175,6 @@ export default function CreateBlog() {
             />
           </div>
 
-          {/* Conditionally render the Success component */}
           {showSuccess && (
             <Success
               Text="წარმატებით დაემატა"

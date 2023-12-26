@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 import Link from "next/link";
 export default function HeaderJustLogo() {
   return (
-    <div className="flex justify-between py-7 px-16 border-b  border-gray-300">
+    <div className="flex justify-between py-7 px-16 ">
       <Link href="/">
         <Image
           src={logo}

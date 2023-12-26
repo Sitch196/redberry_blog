@@ -11,7 +11,12 @@ import Success from "./Success";
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const { loggedin }: any = useAuth();
+  const { loggedin, setLoggedin }: any = useAuth();
+
+  useEffect(() => {
+    const loginState = localStorage.getItem("login");
+    setLoggedin(loginState);
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,8 +32,16 @@ export default function Header() {
 
   useEffect(() => {
     if (loggedin && !isModalOpen) {
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 7000);
+      localStorage.setItem("login", loggedin);
+
+      const successShownBefore = localStorage.getItem("successShownBefore");
+      if (!successShownBefore) {
+        setShowSuccess(true);
+        localStorage.setItem("successShownBefore", "true");
+
+        // Close success modal after 7 seconds
+        setTimeout(() => setShowSuccess(false), 7000);
+      }
     }
   }, [loggedin, isModalOpen]);
 
