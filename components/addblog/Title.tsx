@@ -8,7 +8,7 @@ export default function Title({ onTitleChange }: TitleProps) {
   const [title, setTitle] = useState("");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const istitleValid = hasStartedTyping && title.length >= 4;
+  const istitleValid = hasStartedTyping && title.trim().length >= 4;
 
   const PassToParent = () => {
     setHasStartedTyping(true);
@@ -25,9 +25,9 @@ export default function Title({ onTitleChange }: TitleProps) {
         className={`h-[45px] border-[2px] rounded-md indent-3 outline-none ${
           hasStartedTyping
             ? istitleValid
-              ? "border-green-500 bg-green-200"
-              : "border-red-500 bg-red-100"
-            : "border-[#5d37f3]"
+              ? "border-[1px] border-green-500 bg-green-200"
+              : "border-[1px] border-red-500 bg-red-100"
+            : "border-[1px] border-[#5d37f3]"
         }`}
         onChange={(e) => {
           setTitle(e.target.value);

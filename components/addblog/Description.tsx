@@ -8,7 +8,7 @@ export default function Description({ onDescriptionChange }: DescriptionProps) {
   const [description, setDescription] = useState("");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const isDescriptionValid = hasStartedTyping && description.length >= 4;
+  const isDescriptionValid = hasStartedTyping && description.trim().length >= 4;
 
   const PassToParent = () => {
     setHasStartedTyping(true);
@@ -28,9 +28,9 @@ export default function Description({ onDescriptionChange }: DescriptionProps) {
         className={`w-[600px] h-[124px] indent-2 resize-none p-2 rounded-md outline-none ${
           hasStartedTyping
             ? isDescriptionValid
-              ? "border-green-500 bg-green-200"
-              : "border-red-500 bg-red-100"
-            : "border-gray-200"
+              ? "border-[1px] border-green-500 bg-green-200"
+              : "border-[1px] border-red-500 bg-red-100"
+            : `border-[1px] border-[#5d37f3]`
         }`}
       ></textarea>
       <p

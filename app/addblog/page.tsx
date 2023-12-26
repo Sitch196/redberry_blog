@@ -177,8 +177,8 @@ export default function CreateBlog() {
 
           {showSuccess && (
             <Success
-              Text="წარმატებით დაემატა"
-              buttonText="მთავარზე დაბრუნება"
+              Text="ჩანაწერი წარმატებით დაემატა"
+              buttonText="მთავარ გვერდზე დაბრუნება"
               onClose={closeSuccess}
             />
           )}
