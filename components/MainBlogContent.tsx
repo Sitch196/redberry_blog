@@ -17,7 +17,14 @@ const MainBlogContent: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.blog.redberryinternship.ge/api/categories"
+          "https://api.blog.redberryinternship.ge/api/categories",
+          {
+            method: "GET",
+            headers: {
+              Authorization:
+                "Bearer 25d6ddf48ea374d83e58d1977a098873c2cb3e607c024c1814662c81eace5e3d",
+            },
+          }
         );
         const data = await response.json();
         setCategories(data.data);
@@ -111,11 +118,11 @@ const MainBlogContent: React.FC = () => {
                 {blog.categories.map((category, index) => (
                   <span
                     key={index}
-                    className={`${
-                      colorCombos[index % colorCombos.length].text
-                    } ${
-                      colorCombos[index % colorCombos.length].bg
-                    } text-sm inline-block rounded-full px-3 py-1 mr-2 mt-1`}
+                    className={`text-sm inline-block rounded-full px-3 py-1 mr-2 mt-1`}
+                    style={{
+                      backgroundColor: category.background_color,
+                      color: category.text_color,
+                    }}
                   >
                     {category.title}
                   </span>
