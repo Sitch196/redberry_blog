@@ -8,6 +8,7 @@ import Image from "next/image";
 import HeaderJustLogo from "@/components/HeaderJustLogo";
 import { BlogCardProps } from "@/types";
 import { BlogDetailsProps } from "@/types";
+import BlogCard from "@/components/BlogCard";
 
 const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
   const [blogDetails, setBlogDetails] = useState<BlogCardProps | null>(null);
@@ -57,7 +58,7 @@ const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-col bg-white "
+      className="flex flex-col bg-[whitesmoke] "
     >
       <div className="flex justify-center items-center border-b-2 sticky top-0 bg-white ">
         <HeaderJustLogo />
@@ -150,6 +151,7 @@ const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
           </motion.p>
         </div>
       </motion.div>
+      <BlogCard />
     </motion.div>
   );
 };

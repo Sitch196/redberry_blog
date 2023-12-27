@@ -4,6 +4,7 @@ export interface CategoryProps {
     onCategoryChange: (value: Category[]) => void;
   }
   export interface BlogCardProps {
+    map(arg0: (blog: any) => import("react").JSX.Element): ReactNode;
     id:number
     title: string;
     description: string;
