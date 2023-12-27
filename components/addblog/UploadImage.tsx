@@ -4,9 +4,7 @@ import Image from "next/image";
 import upload from "../../assets/upload.png";
 import defaultimage from "../../assets/default.png";
 import close from "../../assets/close.png";
-interface UploadImageProps {
-  onFileChange: (file: File | null) => void;
-}
+import { UploadImageProps } from "@/types";
 
 export default function UploadImage({
   onFileChange,

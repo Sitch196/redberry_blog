@@ -3,12 +3,7 @@ import checkmark from "../assets/checkmark.png";
 import close from "../assets/close.png";
 import React from "react";
 import Link from "next/link";
-
-interface textTypes {
-  Text: string;
-  buttonText: string;
-  onClose: () => void;
-}
+import { textTypes } from "@/types";
 
 export default function Success({ Text, buttonText, onClose }: textTypes) {
   return (

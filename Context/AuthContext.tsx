@@ -1,9 +1,11 @@
 "use client";
-import { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, ReactNode } from "react";
+import { AuthContextProps } from "@/types";
+import { AuthProviderProps } from "@/types";
 
-const AuthContext = createContext();
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loggedin, setLoggedin] = useState(false);
 
   return (
@@ -13,6 +15,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };

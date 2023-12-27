@@ -12,6 +12,7 @@ import HeaderJustLogo from "@/components/HeaderJustLogo";
 import Success from "@/components/Success";
 import publish from "../../assets/publish.png";
 import axios from "axios";
+import { Category } from "@/types";
 
 export default function CreateBlog() {
   const [image, setImage] = useState<File | null>(null);
@@ -150,7 +151,7 @@ export default function CreateBlog() {
         <div className="flex flex-col w-[600px] h-[1090px] mt-[30px]">
           <UploadImage onFileChange={handleFileChange} />
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-5">
             <Author onAuthorChange={handleAuthorChange} />
             <Title onTitleChange={handleTitleChange} />
           </div>

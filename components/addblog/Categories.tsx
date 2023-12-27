@@ -1,15 +1,6 @@
 import { ChangeEvent, useState, useEffect } from "react";
-
-interface CategoryProps {
-  onCategoryChange: (value: Category[]) => void;
-}
-
-interface Category {
-  id: number;
-  title: string;
-  text_color: string;
-  background_color: string;
-}
+import { CategoryProps } from "@/types";
+import { Category } from "@/types";
 
 export default function Categories({ onCategoryChange }: CategoryProps) {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -50,7 +41,6 @@ export default function Categories({ onCategoryChange }: CategoryProps) {
       ]);
       onCategoryChange([...selectedCategories, selectedCategory]);
       setCurrentSelection("");
-      // Other code...
     }
   };
 

@@ -39,7 +39,6 @@ export default function Header() {
         setShowSuccess(true);
         localStorage.setItem("successShownBefore", "true");
 
-        // Close success modal after 7 seconds
         setTimeout(() => setShowSuccess(false), 7000);
       }
     }

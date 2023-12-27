@@ -1,26 +1,12 @@
-interface Category {
-  id: number;
-  title: string;
-  text_color: string;
-  background_color: string;
-}
-
-interface BlogCardProps {
-  title: string;
-  description: string;
-  image: string;
-  author: string;
-  publishDate: string;
-  categories: Category[];
-  email: string;
-}
+import { Category } from "@/types";
+import { BlogCardProps } from "@/types";
 
 const BlogCard: React.FC<BlogCardProps> = ({
   title,
   description,
   image,
   author,
-  publishDate,
+  publish_date,
   categories,
 }) => {
   return (
@@ -32,7 +18,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
       </div>
       <div className="px-6 py-4">
         <p className="text-gray-700 text-base">Author: {author}</p>
-        <p className="text-gray-700 text-base">Publish Date: {publishDate}</p>
+        <p className="text-gray-700 text-base">Publish Date: {publish_date}</p>
         <p className="text-gray-700 text-base">
           Categories: {categories.map((category) => category.title).join(", ")}
         </p>

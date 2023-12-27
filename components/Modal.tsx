@@ -6,10 +6,7 @@ import enterbtn from "../assets/enterbtn.png";
 import React, { useState } from "react";
 import info from "../assets/info.png";
 import { useAuth } from "@/Context/AuthContext";
-
-interface ModalProps {
-  onClose: () => void;
-}
+import { ModalProps } from "@/types";
 
 const Modal: React.FC<ModalProps> = ({ onClose }) => {
   const [email, setEmail] = useState("");

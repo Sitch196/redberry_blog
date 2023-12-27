@@ -4,29 +4,12 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import arrow from "../assets/Arrow.png";
+import { BlogCardProps } from "@/types";
+import { Category } from "@/types";
+import { colorCombos } from "@/utils/colorCombos";
 
-interface Category {
-  id: number;
-  title: string;
-  text_color: string;
-  background_color: string;
-}
-
-interface Blog {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  author: string;
-  publish_date: string;
-  categories: Category[];
-  email: string;
-}
-
-interface blogProps {}
-
-const MainBlogContent: React.FC<blogProps> = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+const MainBlogContent: React.FC = () => {
+  const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
@@ -34,14 +17,7 @@ const MainBlogContent: React.FC<blogProps> = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.blog.redberryinternship.ge/api/categories",
-          {
-            method: "GET",
-            headers: {
-              Authorization:
-                "Bearer 25d6ddf48ea374d83e58d1977a098873c2cb3e607c024c1814662c81eace5e3d",
-            },
-          }
+          "https://api.blog.redberryinternship.ge/api/categories"
         );
         const data = await response.json();
         setCategories(data.data);
@@ -76,18 +52,6 @@ const MainBlogContent: React.FC<blogProps> = () => {
 
     fetchBlogs();
   }, []);
-
-  const colorCombos = [
-    { text: "text-blue-800", bg: "bg-blue-300" },
-    { text: "text-green-800", bg: "bg-green-300" },
-    { text: "text-red-800", bg: "bg-red-300" },
-    { text: "text-yellow-800", bg: "bg-yellow-300" },
-    { text: "text-purple-800", bg: "bg-purple-300" },
-    { text: "text-indigo-800", bg: "bg-indigo-300" },
-    { text: "text-pink-800", bg: "bg-pink-300" },
-    { text: "text-orange-800", bg: "bg-orange-300" },
-    { text: "text-teal-800", bg: "bg-teal-300" },
-  ];
 
   return (
     <div className="flex flex-col">

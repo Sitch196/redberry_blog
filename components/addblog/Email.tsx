@@ -1,8 +1,5 @@
-import React, { useState, ChangeEvent } from "react";
-
-interface EmailProps {
-  onEmailChange: (value: string, isValid: boolean) => void;
-}
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { EmailProps } from "@/types";
 
 const Email: React.FC<EmailProps> = ({ onEmailChange }) => {
   const [email, setEmail] = useState<string>("");
@@ -16,7 +13,20 @@ const Email: React.FC<EmailProps> = ({ onEmailChange }) => {
     setIsValid(newIsValid);
 
     onEmailChange(newEmail, newIsValid);
+
+    localStorage.setItem("email", newEmail);
+    localStorage.setItem("emailIsValid", String(newIsValid));
   };
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email") || "";
+    const storedIsValid = localStorage.getItem("emailIsValid") === "true";
+
+    setEmail(storedEmail);
+    setIsValid(storedIsValid);
+
+    onEmailChange(storedEmail, storedIsValid);
+  }, [onEmailChange]);
 
   return (
     <div className="flex flex-col gap-2 mt-9">

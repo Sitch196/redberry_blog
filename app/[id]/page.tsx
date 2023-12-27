@@ -6,32 +6,12 @@ import LoadingSpinner from "../../LoadingSpinner";
 import exitArrow from "../../assets/exitArrow.png";
 import Image from "next/image";
 import HeaderJustLogo from "@/components/HeaderJustLogo";
-
-interface Category {
-  title: string;
-  text_color?: string;
-  background_color?: string;
-}
-
-interface BlogDetailsProps {
-  params: {
-    id: string;
-  };
-}
-
-interface Blog {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  author: string;
-  publish_date: string;
-  categories: Category[];
-  email: string;
-}
+import { BlogCardProps } from "@/types";
+import { BlogDetailsProps } from "@/types";
+import { colorCombos } from "@/utils/colorCombos";
 
 const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
-  const [blogDetails, setBlogDetails] = useState<Blog | null>(null);
+  const [blogDetails, setBlogDetails] = useState<BlogCardProps | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -60,18 +40,6 @@ const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
       fetchBlog();
     }
   }, [params.id]);
-
-  const colorCombos = [
-    { text: "text-blue-800", bg: "bg-blue-300" },
-    { text: "text-green-800", bg: "bg-green-300" },
-    { text: "text-red-800", bg: "bg-red-300" },
-    { text: "text-yellow-800", bg: "bg-yellow-300" },
-    { text: "text-purple-800", bg: "bg-purple-300" },
-    { text: "text-indigo-800", bg: "bg-indigo-300" },
-    { text: "text-pink-800", bg: "bg-pink-300" },
-    { text: "text-orange-800", bg: "bg-orange-300" },
-    { text: "text-teal-800", bg: "bg-teal-300" },
-  ];
 
   return (
     <motion.div
