@@ -15,7 +15,7 @@ import axios from "axios";
 import { Category } from "@/types";
 
 export default function CreateBlog() {
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<any>(null);
   const [author, setAuthor] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -60,7 +60,7 @@ export default function CreateBlog() {
     setPublish_date(value);
   };
 
-  const handleCategoryChange = (value: Category[]) => {
+  const handleCategoryChange = (value: any) => {
     setCategories(value);
   };
 
