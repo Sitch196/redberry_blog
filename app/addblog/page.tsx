@@ -96,6 +96,7 @@ export default function CreateBlog() {
         isEmailValid
     );
   };
+
   ////////////////////////////////SENDING THE FORM///////////////////////////////
   const handleSubmit = async () => {
     if (!isFormValid) {
@@ -132,7 +133,17 @@ export default function CreateBlog() {
 
       if (blogResponse.status === 204) {
         setShowSuccess(true);
-        console.log("Post request successful");
+        localStorage.removeItem("title");
+        localStorage.removeItem("description");
+        localStorage.removeItem("author");
+        localStorage.removeItem("publish_date");
+        localStorage.removeItem("email");
+        localStorage.removeItem("hasStartedTyping");
+        localStorage.removeItem("isAuthorValid");
+        localStorage.removeItem("isTitleValid");
+        localStorage.removeItem("isDescriptionValid");
+        localStorage.removeItem("emailIsValid");
+        console.log("Post request Successfull");
       } else {
         console.error("Post request failed with status:", blogResponse.status);
       }
