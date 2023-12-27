@@ -11,7 +11,7 @@ import slidingArrows from "../assets/slidingArrows.png";
 import Link from "next/link";
 import arrow from "../assets/Arrow.png";
 
-const BlogCard: React.FC<BlogCardProps> = () => {
+const BlogCard: React.FC = () => {
   const [allBlogs, setAllBlogs] = useState<BlogCardProps[]>([]);
   const [slider, setSlider] = useState<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
