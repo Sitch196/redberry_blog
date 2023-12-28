@@ -154,7 +154,7 @@ export default function CreateBlog() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center items-center border-b-2">
+      <div className="flex justify-center items-center sticky top-0 bg-[whitesmoke] border-b-2">
         <HeaderJustLogo />
       </div>
 

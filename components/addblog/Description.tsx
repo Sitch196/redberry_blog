@@ -1,8 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { DescriptionProps } from "@/types";
 
-// ... (other imports)
-
 export default function Description({ onDescriptionChange }: DescriptionProps) {
   const [description, setDescription] = useState("");
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
@@ -31,17 +29,25 @@ export default function Description({ onDescriptionChange }: DescriptionProps) {
   return (
     <div className="flex flex-col mt-9 gap-2">
       <label>აღწერა *</label>
-      <textarea
-        value={description}
-        onChange={handleInputChange}
-        placeholder="შეიყვანეთ აღწერა"
-        className={`w-[600px] h-[124px] indent-2 resize-none p-2 rounded-md outline-none ${
+      <div
+        className={`w-[600px] h-[124px] indent-2 p-2 rounded-md outline-none ${
           isDescriptionValid
             ? "border-[1px] border-green-500 bg-green-200"
             : "border-[1px] border-red-500 bg-red-100"
         }`}
-        style={{ whiteSpace: "pre-line" }}
-      ></textarea>
+        style={{
+          whiteSpace: "pre-line",
+          overflowWrap: "break-word",
+        }}
+      >
+        <textarea
+          value={description}
+          onChange={handleInputChange}
+          placeholder="შეიყვანეთ აღწერა"
+          className="w-full h-full resize-none outline-none bg-transparent"
+          style={{ whiteSpace: "pre-line", overflowWrap: "break-word" }}
+        />
+      </div>
       <p
         className={`mt-2 text-xs ${
           isDescriptionValid ? "text-green-500" : "text-red-500"

@@ -45,7 +45,7 @@ export default function Header() {
   }, [loggedin, isModalOpen]);
 
   return (
-    <div className="flex justify-between py-7 px-16 border-b border-gray-300">
+    <div className="flex justify-between sticky top-0 py-7 px-16 border-b bg-white border-gray-300">
       <Link href="/">
         <Image
           src={logo}
