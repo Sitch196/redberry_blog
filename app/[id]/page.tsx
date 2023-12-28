@@ -132,9 +132,11 @@ const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
             {blogDetails?.categories.map((category, index) => (
               <span
                 key={index}
-                className={`${colorCombos[index % colorCombos.length].text} ${
-                  colorCombos[index % colorCombos.length].bg
-                } inline-block rounded-full px-3 py-1 mr-2`}
+                className={` inline-block rounded-full px-3 py-1 mr-2`}
+                style={{
+                  backgroundColor: category.background_color,
+                  color: category.text_color,
+                }}
               >
                 {category.title}
               </span>

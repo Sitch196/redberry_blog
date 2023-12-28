@@ -55,12 +55,12 @@ export default function Categories({ onCategoryChange }: CategoryProps) {
   };
 
   return (
-    <div className="flex flex-col gap-2 border 2 w-[288px] flex-wrap">
+    <div className="flex flex-col gap-2  w-[288px] flex-wrap">
       <div className="flex flex-wrap gap-2">
         {selectedCategories.map((category) => (
           <div
             key={category.id}
-            className="rounded-xl text-xs p-[7px]"
+            className="rounded-2xl font-bold text-xs px-[7px] py-[5px]"
             style={{
               backgroundColor: category.background_color,
               color: category.text_color,
@@ -81,7 +81,7 @@ export default function Categories({ onCategoryChange }: CategoryProps) {
         <select
           value={currentSelection}
           onChange={handleCategoryChange}
-          className="w-72 h-12 border indent-3 border-gray-300 rounded"
+          className="w-72 h-12 border indent-3 outline-none border-gray-300 rounded"
         >
           <option value="">აირჩიე კატეგორია</option>
           {categories.map((category) => (

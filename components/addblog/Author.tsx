@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 
 interface AuthorProps {
@@ -23,11 +24,18 @@ export default function Author({ onAuthorChange }: AuthorProps) {
     setHasStartedTyping(storedHasStartedTyping === "true");
   }, []);
 
-  const PassToParent = () => {
+  useEffect(() => {
+    if (hasStartedTyping) {
+      onAuthorChange({ author });
+      localStorage.setItem("author", author);
+      localStorage.setItem("hasStartedTyping", String(true));
+    }
+  }, [author, hasStartedTyping, onAuthorChange]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setAuthor(inputValue);
     setHasStartedTyping(true);
-    onAuthorChange({ author });
-    localStorage.setItem("author", author);
-    localStorage.setItem("hasStartedTyping", String(true));
   };
 
   return (
@@ -38,10 +46,7 @@ export default function Author({ onAuthorChange }: AuthorProps) {
           type="text"
           value={author}
           placeholder="შეიყვანეთ ავტორი"
-          onChange={(e) => {
-            setAuthor(e.target.value);
-            PassToParent();
-          }}
+          onChange={handleInputChange}
           className={`h-[45px] border-[2px] rounded-md indent-3 outline-none ${
             hasStartedTyping
               ? isFormValid

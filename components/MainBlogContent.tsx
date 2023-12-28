@@ -6,12 +6,14 @@ import Image from "next/image";
 import arrow from "../assets/Arrow.png";
 import { BlogCardProps } from "@/types";
 import { Category } from "@/types";
-import { colorCombos } from "@/utils/colorCombos";
+
+// ... (existing imports)
+import { InView, useInView } from "react-intersection-observer";
 
 const MainBlogContent: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,12 +69,23 @@ const MainBlogContent: React.FC = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`m-2  border rounded-2xl cursor-pointer flex justify-center items-center py-2`}
+              onClick={() =>
+                setSelectedCategories((prevCategories) => {
+                  if (prevCategories.includes(category.id)) {
+                    return prevCategories.filter((id) => id !== category.id);
+                  } else {
+                    return [...prevCategories, category.id];
+                  }
+                })
+              }
+              className={`m-2 border rounded-2xl cursor-pointer flex justify-center items-center py-2`}
               style={{
                 backgroundColor: category.background_color,
                 color: category.text_color,
                 minWidth: "170px",
+                border: selectedCategories.includes(category.id)
+                  ? "1px solid #5d37f3"
+                  : "1px solid transparent",
               }}
             >
               <h3 className="text-xs font-bold wor">{category.title}</h3>
@@ -89,63 +102,73 @@ const MainBlogContent: React.FC = () => {
       >
         {blogs
           .filter((blog) =>
-            selectedCategory
-              ? blog.categories.some((cat) => cat.id === selectedCategory)
-              : true
+            selectedCategories.length === 0
+              ? true
+              : blog.categories.some((cat) =>
+                  selectedCategories.includes(cat.id)
+                )
           )
+          .reverse()
           .map((blog) => (
-            <motion.div
-              key={blog.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.3 }}
-              className="w-[408px]"
-            >
-              <img
-                className="object-cover w-[408px] h-[328px] rounded-lg"
-                src={blog.image}
-                alt={blog.title}
-              />
-              <p className="text-[16px] font-bold mt-[20px]"> {blog.author}</p>
-              <p className="text-gray-600 mt-[10px] text-xs">
-                {blog.publish_date}
-              </p>
-              <div className="font-bold text-[20px] mt-[20px]">
-                {blog.title}
-              </div>
-              <p className="font-medium text-gray-600 mt-[10px] ">
-                {blog.categories.map((category, index) => (
-                  <span
-                    key={index}
-                    className={`text-sm inline-block rounded-full px-3 py-1 mr-2 mt-1`}
-                    style={{
-                      backgroundColor: category.background_color,
-                      color: category.text_color,
-                    }}
-                  >
-                    {category.title}
-                  </span>
-                ))}
-              </p>
-              <p className="text-gray-700 text-[16px] mt-[20px] truncate">
-                {blog.description}
-              </p>
-              <Link href={`/${blog.id}`}>
-                <div className="flex items-center gap-2">
-                  <p className="text-[14px] font-bold cursor-pointer mt-[18px] text-[#5d37f3]">
-                    სრულად ნახვა
-                  </p>
-                  <Image
-                    className="mt-3"
-                    src={arrow}
-                    width={20}
-                    height={18}
-                    alt="arrow"
+            <InView key={blog.id} triggerOnce>
+              {({ inView, ref }) => (
+                <motion.div
+                  ref={ref}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: inView ? 1 : 0, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-[408px]"
+                >
+                  <img
+                    className="object-cover w-[408px] h-[328px] rounded-lg"
+                    src={blog.image}
+                    alt={blog.title}
                   />
-                </div>
-              </Link>
-            </motion.div>
+                  <p className="text-[16px] font-bold mt-[20px]">
+                    {" "}
+                    {blog.author}
+                  </p>
+                  <p className="text-gray-600 mt-[10px] text-xs">
+                    {blog.publish_date}
+                  </p>
+                  <div className="font-bold text-[20px] mt-[20px]">
+                    {blog.title}
+                  </div>
+                  <p className="font-medium text-gray-600 mt-[10px] ">
+                    {blog.categories.map((category, index) => (
+                      <span
+                        key={index}
+                        className={`text-sm inline-block rounded-full px-3 py-1 mr-2 mt-1`}
+                        style={{
+                          backgroundColor: category.background_color,
+                          color: category.text_color,
+                        }}
+                      >
+                        {category.title}
+                      </span>
+                    ))}
+                  </p>
+                  <p className="text-gray-700 text-[16px] mt-[20px] truncate">
+                    {blog.description}
+                  </p>
+                  <Link href={`/${blog.id}`}>
+                    <div className="flex items-center gap-2">
+                      <p className="text-[14px] font-bold cursor-pointer mt-[18px] text-[#5d37f3]">
+                        სრულად ნახვა
+                      </p>
+                      <Image
+                        className="mt-3"
+                        src={arrow}
+                        width={20}
+                        height={18}
+                        alt="arrow"
+                      />
+                    </div>
+                  </Link>
+                </motion.div>
+              )}
+            </InView>
           ))}
       </motion.div>
     </div>

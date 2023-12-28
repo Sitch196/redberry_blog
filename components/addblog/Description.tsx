@@ -1,6 +1,8 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { DescriptionProps } from "@/types";
 
+// ... (other imports)
+
 export default function Description({ onDescriptionChange }: DescriptionProps) {
   const [description, setDescription] = useState("");
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
@@ -38,6 +40,7 @@ export default function Description({ onDescriptionChange }: DescriptionProps) {
             ? "border-[1px] border-green-500 bg-green-200"
             : "border-[1px] border-red-500 bg-red-100"
         }`}
+        style={{ whiteSpace: "pre-line" }}
       ></textarea>
       <p
         className={`mt-2 text-xs ${

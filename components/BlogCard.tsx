@@ -67,7 +67,13 @@ const BlogCard = ({ currentCategory }: BlogCardProps) => {
             animate={{ opacity: disablePrevArrow ? 0.5 : 1 }}
             whileHover={{ scale: disablePrevArrow ? 1 : 1.1 }}
           >
-            <Image width={44} height={44} alt="sliders" src={slidingArrows} />
+            <Image
+              width={44}
+              height={44}
+              alt="sliders"
+              src={slidingArrows}
+              className="rotate-180"
+            />
           </motion.div>
           <motion.div
             onClick={() => !disableNextArrow && slider?.slickNext()}
