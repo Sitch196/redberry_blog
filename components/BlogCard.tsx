@@ -11,10 +11,14 @@ import slidingArrows from "../assets/slidingArrows.png";
 import Link from "next/link";
 import arrow from "../assets/Arrow.png";
 
-const BlogCard: React.FC = () => {
+const BlogCard = ({ currentCategory }: BlogCardProps) => {
   const [allBlogs, setAllBlogs] = useState<BlogCardProps[]>([]);
   const [slider, setSlider] = useState<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const filteredBlogs = allBlogs.filter((blog) =>
+    blog.categories.some((category) => category.title === currentCategory)
+  );
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -49,18 +53,16 @@ const BlogCard: React.FC = () => {
 
   return (
     <motion.div
-      className="flex justify-center items-center flex-col mt-7"
+      className="flex justify-center items-center flex-col mt-7 "
       initial="hidden"
       animate="visible"
     >
-      <div className="w-[1288px] flex justify-between">
+      <div className="w-[1288px] flex justify-between  ">
         <p className="font-bold text-[32px]">მსგავსი სტატიები</p>
-        <div className="flex gap-4">
+        <div className="flex gap-4  ">
           <motion.div
             onClick={() => !disablePrevArrow && slider?.slickPrev()}
-            className={`cursor-pointer rotate-180 ${
-              disablePrevArrow ? "disabled" : ""
-            }`}
+            className={`cursor-pointer  ${disablePrevArrow ? "disabled" : ""}`}
             initial={{ opacity: disablePrevArrow ? 0.5 : 1 }}
             animate={{ opacity: disablePrevArrow ? 0.5 : 1 }}
             whileHover={{ scale: disablePrevArrow ? 1 : 1.1 }}
@@ -69,7 +71,7 @@ const BlogCard: React.FC = () => {
           </motion.div>
           <motion.div
             onClick={() => !disableNextArrow && slider?.slickNext()}
-            className={`cursor-pointer ${disableNextArrow ? "disabled" : ""}`}
+            className={`cursor-pointer   ${disableNextArrow ? "disabled" : ""}`}
             initial={{ opacity: disableNextArrow ? 0.5 : 1 }}
             animate={{ opacity: disableNextArrow ? 0.5 : 1 }}
             whileHover={{ scale: disableNextArrow ? 1 : 1.1 }}
@@ -80,7 +82,7 @@ const BlogCard: React.FC = () => {
       </div>
       <Slider
         ref={(slider) => setSlider(slider)}
-        className="w-[1288px] overflow-hidden flex gap-6 shadow-lg bg-white m-4"
+        className="w-[1288px] overflow-hidden flex gap-6 bg-[whitesmoke] m-4"
         dots={false}
         infinite={false}
         speed={300}
@@ -90,7 +92,7 @@ const BlogCard: React.FC = () => {
         focusOnSelect={false}
         beforeChange={handleBeforeChange}
       >
-        {allBlogs.map((blog: any) => (
+        {filteredBlogs.map((blog: any) => (
           <motion.div
             key={blog.id}
             className="w-[408px] p-2"

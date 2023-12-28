@@ -151,7 +151,20 @@ const BlogPage: React.FC<BlogDetailsProps> = ({ params }) => {
           </motion.p>
         </div>
       </motion.div>
-      <BlogCard />
+      <BlogCard
+        currentCategory={blogDetails?.categories[0]?.title}
+        map={function (blog: any): React.ReactNode {
+          throw new Error("Function not implemented.");
+        }}
+        id={0}
+        title={""}
+        description={""}
+        image={""}
+        author={""}
+        publish_date={""}
+        categories={[]}
+        email={""}
+      />
     </motion.div>
   );
 };

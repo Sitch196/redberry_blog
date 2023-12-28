@@ -11,6 +11,7 @@ import { ModalProps } from "@/types";
 const Modal: React.FC<ModalProps> = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
+  const [loginError, setLoginError] = useState(false);
   const { setLoggedin } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,14 +44,14 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
 
       if (response.status === 204) {
         setLoggedin(true);
+        onClose();
       } else {
         console.error("Login failed");
+        setLoginError(true);
       }
     } catch (error) {
       console.error("An error occurred during login:", error);
     }
-
-    onClose();
   };
 
   return (
@@ -79,7 +80,9 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
                 <label>ელ-ფოსტა</label>
                 <input
                   className={`h-[45px] border-2 rounded-md ${
-                    isValidEmail ? "border-[#5d37f3]" : "border-red-500"
+                    isValidEmail
+                      ? "border-[1px] border-[#5d37f3]"
+                      : "border-[1px] border-red-500"
                   } indent-3 outline-none`}
                   type="text"
                   placeholder="Example@redberry.ge"
@@ -95,6 +98,7 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
                   </p>
                 </div>
               )}
+
               <Image
                 src={enterbtn}
                 alt=" btn"
